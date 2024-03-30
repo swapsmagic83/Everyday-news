@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        {% for field in form 
+            if field.widget.input_type!= 'hidden' %}
+            <p>
+                {{field.label}}
+                {{field}}
+                {% for error in field.errors %}
+                {{error}}
+                {% endfor %}
+            </p>
+        {% endfor %}
+    <button type="submit">Sign Up</button>
+    <button><a href="/">Cancel</a></button>
+    </form>
+</body>
+</html>
