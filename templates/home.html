@@ -6,8 +6,27 @@
     <title>Document</title>
 </head>
 <body>
+    
     <nav> <a href="/sign-up">SignUp</a>
          <a href="/login">Login</a></nav>
     <h1> EVERYDAY NEWS!!!</h1>
+    <ul>
+        {% for a_news in news %}
+        
+        <li>
+            <p>{{a_news.title}}</p>
+            <p>{{a_news.description}}</p>
+            <a href="{{a_news.url}}">{{a_news.url}}</a>
+            <img src="{{a_news.image_url}}" alt="">
+            <p>{{a_news.content}}</p>
+            <small>By {{a_news.author}} {{a_news.publisedAt}}</small>
+            <br>
+            <button>Vote</button>
+            <button>Favorite</button>
+            
+        </li>
+        ---------------------------------------------------------------------------------------------
+        {% endfor %}
+    </ul>
 </body>
 </html>

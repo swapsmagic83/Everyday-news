@@ -2,6 +2,7 @@ from flask import Flask, render_template, request,redirect, session,flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, News, Favorite, Vote
 from forms import UserForm, LoginForm
+import requests
 
 app = Flask(__name__)
 app.app_context().push()
@@ -16,7 +17,8 @@ connect_db(app)
 
 @app.route('/')
 def home_page():
-    return render_template('home.html')
+    news= News.query.all()
+    return render_template('home.html',news=news)
 
 @app.route('/sign-up',methods=["GET","POST"])
 def sign_up():
@@ -61,5 +63,37 @@ def log_in():
 def logout_user():
     session.pop('username')
     return redirect('/login')
+
+@app.route('/refresh-news')
+def get_data():
+    apikey='f2cb68b3e88142f49ef7ca40c24e4ff3'
+
+    response = requests.get(
+        'https://newsapi.org/v2/top-headlines', 
+        params={"apiKey":'f2cb68b3e88142f49ef7ca40c24e4ff3', "country":'us'} 
+        )
+    json_response = response.json()
+    #Handle Errors Later
+
+    articles = json_response['articles']
+    for i in range(len(articles)):    
+        author=articles[i]["author"]
+        title=articles[i]["title"]
+        description=articles[i]["description"]
+        url=articles[i]["url"]
+        image_url=articles[i]["urlToImage"]
+        publisedAt=articles[i]["publishedAt"]
+        content=articles[i]["content"]
+        if title and description and url and publisedAt and not News.query.filter_by(url=url).first():
+            new_news=News(author=author,title=title,description=description,url=url,image_url=image_url,publisedAt=publisedAt,content=content)
+        db.session.add(new_news)
+
+    db.session.commit()
+    return redirect('/')
+
+@app.route('/users/<username>/favorites',methods=["GET","POST"])
+def user_favorites(username):
+    favorites=Favorite.query.all()
+    return 
 
 

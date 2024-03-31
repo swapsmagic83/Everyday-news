@@ -36,13 +36,13 @@ class User(db.Model):
 class News(db.Model):
     __tablename__ = "news"
     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    author=db.Column(db.String(50), nullable=False)
+    author=db.Column(db.Text)
     title=db.Column(db.Text,nullable=False)
     description=db.Column(db.Text,nullable=False)
     url=db.Column(db.Text,nullable=False)
-    image_url=db.Column(db.Text,nullable=False)
+    image_url=db.Column(db.Text)
     publisedAt=db.Column(db.DateTime,nullable=False)
-    content=db.Column(db.Text, nullable=False)
+    content=db.Column(db.Text)
 
 class Favorite(db.Model):
     __tablename__ = "favorites"
