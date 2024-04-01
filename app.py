@@ -41,7 +41,8 @@ def show_user(username):
         flash('login first to see your account..')
         return redirect('/login')
     user = User.query.filter_by(username=username).first()
-    return render_template('user.html',user=user)
+    news= News.query.all()
+    return render_template('user.html',user=user,news=news)
 
 @app.route('/login',methods=["GET","POST"])
 def log_in():
@@ -53,7 +54,6 @@ def log_in():
         if user:
             flash(f"Welcome  {user.username}!!")
             session['username'] =user.username
-            # id=user.id
             return redirect(f"/users/{user.username}")
         else:
             form.username.errors = ['Invalid username/password']
@@ -91,9 +91,52 @@ def get_data():
     db.session.commit()
     return redirect('/')
 
-@app.route('/users/<username>/favorites',methods=["GET","POST"])
+@app.route('/users/<username>/favorites')
 def user_favorites(username):
-    favorites=Favorite.query.all()
-    return 
+    user=User.query.filter_by(username=username).first()
+    favorites = user.favorites
+    favorite_news = []
+    for favorite in favorites:
+        favorite_news.append(favorite.news)
+    # user_votes= user.votes
+    # vote_news=[]
+    # for vote in user_votes:
+    #     vote_news.append(vote.news)
+    return render_template('user_favorite.html',favorite_news=favorite_news,user=user)
+
+@app.route('/users/<username>/new-favorite',methods=["POST"])
+def user_new_favorite(username):
+    news_id = int(request.form["newsid"])
+    user=User.query.filter_by(username=username).first()
+    user_id = user.id 
+    favorites = user.favorites
+    favorite_news_ids = []
+    for favorite in favorites:
+        favorite_news_ids.append(favorite.news_id)
+    if news_id not in favorite_news_ids:       
+        new_favorite=Favorite(user_id=user_id,news_id=news_id)
+        db.session.add(new_favorite)
+        db.session.commit()
+    return redirect(f"/users/{user.username}/favorites")
+
+@app.route('/users/<username>/vote',methods=["POST"])
+def user_vote(username):
+    news_id = int(request.form["newsid"])
+    user=User.query.filter_by(username=username).first()
+    user_id = user.id 
+    user_votes=user.votes
+    print(user_votes)
+    vote_news=[]
+    for vote in user_votes:
+        vote_news.append(vote.news_id)
+    # print(all_votes)   
+    if news_id not in vote_news:     
+        user_vote=Vote(user_id=user_id,news_id=news_id)
+        db.session.add(user_vote)
+        db.session.commit()
+    return redirect(f"/users/{user.username}")
+    
+
+
 
 

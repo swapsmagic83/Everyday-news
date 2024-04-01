@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Welcome {{user.first_name}} {{user.last_name}}: </h1> 
+    <a href="/users/{{user.username}}/favorites">View Your Favorite</a>
     <a href="/login">Sign Out</a>
     <ul>
         {% for a_news in news %}
@@ -19,8 +20,18 @@
             <p>{{a_news.content}}</p>
             <small>By {{a_news.author}} {{a_news.publisedAt}}</small>
             <br>
-            <button>Vote</button>
-            <button>Favorite</button>
+            <form action="/users/{{user.username}}/vote" method="POST">
+                
+                <input name="newsid" hidden value={{a_news.id}}>
+                <button>Vote</button>
+            </form>
+            
+            <form action="/users/{{user.username}}/new-favorite" method="POST">
+                
+                <input name="newsid" hidden value={{a_news.id}}>
+                <button>Favorite</button>
+            </form>
+            
             
         </li>
         ---------------------------------------------------------------------------------------------
