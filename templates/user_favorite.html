@@ -9,6 +9,7 @@
     <div>
         <h1>{{user.first_name}} {{user.last_name}}'s Favorite News: </h1>
         <a href="/users/{{user.username}}">GoTo Home Page</a>
+        <a href="/logout">Sign Out</a>
         <ul>
             {% for favorite in favorite_news %}
 

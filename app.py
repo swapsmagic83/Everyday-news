@@ -17,8 +17,18 @@ connect_db(app)
 
 @app.route('/')
 def home_page():
-    news= News.query.all()
-    return render_template('home.html',news=news)
+    is_sorted = request.args.get('sorted')
+    if not is_sorted:
+        is_sorted = False
+    news_list = []
+    if is_sorted:
+        votes = Vote.query.with_entities(Vote.news_id, db.func.count(Vote.news_id)).group_by("news_id").order_by(db.func.count(Vote.news_id).desc()).all()
+        for vote in votes:
+            news = News.query.filter_by(id=vote.news_id).first()
+            news_list.append(news)
+    else:
+        news_list= News.query.all()
+    return render_template('home.html',news=news_list)
 
 @app.route('/sign-up',methods=["GET","POST"])
 def sign_up():
@@ -41,8 +51,19 @@ def show_user(username):
         flash('login first to see your account..')
         return redirect('/login')
     user = User.query.filter_by(username=username).first()
-    news= News.query.all()
-    return render_template('user.html',user=user,news=news)
+    is_sorted = request.args.get('sorted')
+    if not is_sorted:
+        is_sorted = False
+    news_list = []
+    if is_sorted:
+        votes = Vote.query.with_entities(Vote.news_id, db.func.count(Vote.news_id)).group_by("news_id").order_by(db.func.count(Vote.news_id).desc()).all()
+        for vote in votes:
+            news = News.query.filter_by(id=vote.news_id).first()
+            news_list.append(news)
+    else:
+        news_list= News.query.all()
+    # news= News.query.all()
+    return render_template('user.html',user=user,news=news_list)
 
 @app.route('/login',methods=["GET","POST"])
 def log_in():
@@ -61,7 +82,7 @@ def log_in():
 
 @app.route('/logout')
 def logout_user():
-    session.pop('username')
+    del session['username']
     return redirect('/login')
 
 @app.route('/refresh-news')
@@ -98,10 +119,6 @@ def user_favorites(username):
     favorite_news = []
     for favorite in favorites:
         favorite_news.append(favorite.news)
-    # user_votes= user.votes
-    # vote_news=[]
-    # for vote in user_votes:
-    #     vote_news.append(vote.news)
     return render_template('user_favorite.html',favorite_news=favorite_news,user=user)
 
 @app.route('/users/<username>/new-favorite',methods=["POST"])
@@ -125,11 +142,9 @@ def user_vote(username):
     user=User.query.filter_by(username=username).first()
     user_id = user.id 
     user_votes=user.votes
-    print(user_votes)
     vote_news=[]
     for vote in user_votes:
-        vote_news.append(vote.news_id)
-    # print(all_votes)   
+        vote_news.append(vote.news_id)  
     if news_id not in vote_news:     
         user_vote=Vote(user_id=user_id,news_id=news_id)
         db.session.add(user_vote)

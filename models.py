@@ -19,7 +19,7 @@ class User(db.Model):
     last_name=db.Column(db.String(20), nullable=False)
     favorites =db.relationship('Favorite',backref='users')
     votes =db.relationship('Vote',backref='users')
-    
+
     @classmethod
     def register(cls,username,password,first_name,last_name):
         hashed = bcrypt.generate_password_hash(password)
@@ -46,6 +46,7 @@ class News(db.Model):
     publisedAt=db.Column(db.DateTime,nullable=False)
     content=db.Column(db.Text)
     favorite_news =db.relationship('Favorite',backref='news')
+    vote = db.relationship('Vote', backref='news')
     
 
 class Favorite(db.Model):

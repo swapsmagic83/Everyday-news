@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EVERYDAY NEWS</title>
 </head>
 <body>
     
     <nav> <a href="/sign-up">SignUp</a>
          <a href="/login">Login</a></nav>
+         <a href="/?sorted=true">Watch Most Voted News</a>
+         <a href="/">Watch all News</a>
+         
+         <div>
     <h1> EVERYDAY NEWS!!!</h1>
+    <small>Keep Up With The World!!</small>
+</div>
     <ul>
         {% for a_news in news %}
         
@@ -21,9 +27,6 @@
             <p>{{a_news.content}}</p>
             <small>By {{a_news.author}} {{a_news.publisedAt}}</small>
             <br>
-            
-            
-            
             
         </li>
         ---------------------------------------------------------------------------------------------

@@ -8,7 +8,8 @@
 <body>
     <h1>Welcome {{user.first_name}} {{user.last_name}}: </h1> 
     <a href="/users/{{user.username}}/favorites">View Your Favorite</a>
-    <a href="/login">Sign Out</a>
+    <a href="/users/{{user.username}}?sorted=true">Watch Most Voted News</a>
+    <a href="/logout">Sign Out</a>
     <ul>
         {% for a_news in news %}
         
