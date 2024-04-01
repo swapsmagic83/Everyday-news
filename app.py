@@ -4,6 +4,7 @@ from models import db, connect_db, User, News, Favorite, Vote
 from forms import UserForm, LoginForm
 import requests
 
+
 app = Flask(__name__)
 app.app_context().push()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///everyday-news'
@@ -62,7 +63,6 @@ def show_user(username):
             news_list.append(news)
     else:
         news_list= News.query.all()
-    # news= News.query.all()
     return render_template('user.html',user=user,news=news_list)
 
 @app.route('/login',methods=["GET","POST"])
@@ -87,15 +87,14 @@ def logout_user():
 
 @app.route('/refresh-news')
 def get_data():
-    apikey='f2cb68b3e88142f49ef7ca40c24e4ff3'
+    apikey='xyz'
 
     response = requests.get(
         'https://newsapi.org/v2/top-headlines', 
-        params={"apiKey":'f2cb68b3e88142f49ef7ca40c24e4ff3', "country":'us'} 
+        params={"apiKey":apikey, "country":'us'} 
         )
     json_response = response.json()
-    #Handle Errors Later
-
+    
     articles = json_response['articles']
     for i in range(len(articles)):    
         author=articles[i]["author"]
