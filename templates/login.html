@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Log In</h1>
-    <form action="" method="POST">
+{% extends 'base.html' %}
+{% block login %}
+
+  
+    <div class="container mt-5 col-md-12 text-center">
+    <h3 class="text-success">Log Into Everyday News</h3>
+    
+    <form class="mt-5" action="" method="POST">
         {{ form.hidden_tag() }}
         {% for field in form 
             if field.widget.input_type!= 'hidden' %}
@@ -19,8 +17,14 @@
                 {% endfor %}
             </p>
         {% endfor %}
-    <button type="submit">Log In</button>
-    <button><a href="/">Cancel</a></button>
-    </form>    
-</body>
-</html>
+    
+    <button class="btn btn-primary  btn-lg" type="submit">Log In</button>
+
+    <button class="btn btn-light  btn-lg"><a href="/">Home Page</a></button>
+    
+   
+   
+    </form>
+
+</div>    
+{% endblock %}

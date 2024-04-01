@@ -1,36 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVERYDAY NEWS</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block home %}
     
-    <nav> <a href="/sign-up">SignUp</a>
-         <a href="/login">Login</a></nav>
-         <a href="/?sorted=true">Watch Most Voted News</a>
-         <a href="/">Watch all News</a>
-         
-         <div>
-    <h1> EVERYDAY NEWS!!!</h1>
-    <small>Keep Up With The World!!</small>
-</div>
+    <!-- <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <div  class="navbar-nav">
+         <a class="nav-link nav-item" href="/sign-up">SignUp</a>
+         <a class="nav-link nav-item" href="/login">Login</a>
+         <a class="nav-link nav-item" href="/?sorted=true">Watch Most Voted News</a>
+         <a class="nav-link nav-item" href="/">Watch all News</a>
+        </div>
+        </nav> -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/?sorted=true">Most Voted News</a>
+              <a class="nav-link active text-light" href="/">Watch all News</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <!-- <div class="collapse navbar-collapse " id="navbarNav"> -->
+                <ul class="navbar-nav ml-auto">
+            
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/sign-up">Sign Up</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/login">Log In</a>
+                  </li>
+                
+                </ul>
+              <!-- </div> -->
+            </div>
+          </nav>
+<div class="container-fluid">
+    <div class="">     
+        <h1 class="d-inline text-primary""> EVERYDAY NEWS</h1>
+        <small class="text-success">**Keep Up With The World!!**</small>
+    </div>
+    <div class="container mt-5 col-md-12">
     <ul>
         {% for a_news in news %}
         
-        <li>
-            <p>{{a_news.title}}</p>
+        <li class="">
+            <p class="h4">{{a_news.title}}</p>
             <p>{{a_news.description}}</p>
             <a href="{{a_news.url}}">{{a_news.url}}</a>
-            <img src="{{a_news.image_url}}" alt="">
+            <img class=" img-thumbnail " src="{{a_news.image_url}}" alt="">
             <p>{{a_news.content}}</p>
-            <small>By {{a_news.author}} {{a_news.publisedAt}}</small>
-            <br>
+            <small class="d-block text-success">By: {{a_news.author}} </small>
+            <small class="text-success">On {{a_news.publisedAt}}</small>
+            
             
         </li>
-        ---------------------------------------------------------------------------------------------
+<hr>
         {% endfor %}
     </ul>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}
