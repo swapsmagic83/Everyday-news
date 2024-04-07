@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request,redirect, session,flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, News, Favorite, Vote
@@ -7,7 +9,7 @@ import requests
 
 app = Flask(__name__)
 app.app_context().push()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///everyday-news'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///everyday-news')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY']='everyday-news'
