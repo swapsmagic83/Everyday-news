@@ -96,7 +96,7 @@ def get_data():
         params={"apiKey":apikey, "country":'us'} 
         )
     json_response = response.json()
-    
+    print(json_response)
     articles = json_response['articles']
     for i in range(len(articles)):    
         author=articles[i]["author"]
@@ -108,7 +108,7 @@ def get_data():
         content=articles[i]["content"]
         if title and description and url and publisedAt and not News.query.filter_by(url=url).first():
             new_news=News(author=author,title=title,description=description,url=url,image_url=image_url,publisedAt=publisedAt,content=content)
-        db.session.add(new_news)
+            db.session.add(new_news)
 
     db.session.commit()
     return redirect('/')
