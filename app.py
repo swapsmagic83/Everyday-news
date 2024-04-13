@@ -89,7 +89,7 @@ def logout_user():
 
 @app.route('/refresh-news')
 def get_data():
-    apikey='xyz'
+    apikey='f2cb68b3e88142f49ef7ca40c24e4ff3'
 
     response = requests.get(
         'https://newsapi.org/v2/top-headlines', 
